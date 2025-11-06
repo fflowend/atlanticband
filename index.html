@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlantic Band - Resmi Web Sitesi</title>
+    <!-- Tailwind CSS'i dahil ediyoruz -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#E30066', // Canlı pembe/fuşya
+                        'secondary': '#00F0FF', // Neon mavi
+                        'dark-bg': '#121212', // Koyu arka plan
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'mono': ['Space Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Özelleştirilmiş fontlar (Inter ve Space Mono) */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        
+        /* Dinamik başlık efekti için */
+        .glow-text {
+            text-shadow: 0 0 5px rgba(227, 0, 102, 0.5), 0 0 10px rgba(227, 0, 102, 0.3);
+        }
+
+        /* Navigasyon arka planı için opaklık */
+        .bg-opacity-95 {
+            background-color: rgba(18, 18, 18, 0.95);
+        }
+
+        /* Sekmeler için dalgalanma efekti */
+        .wave-underline {
+            position: relative;
+        }
+        .wave-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #00F0FF;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .wave-underline:hover::after, .wave-underline.active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-gray-100 font-inter" style="scroll-behavior: smooth;">
+
+    <!-- Sabit Navigasyon Çubuğu -->
+    <nav class="sticky top-0 z-50 bg-dark-bg bg-opacity-95 backdrop-blur-sm shadow-xl border-b border-primary/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Sahne Adı -->
+                <a href="#hero" class="text-2xl font-bold font-mono text-primary hover:text-secondary transition duration-300 tracking-wider glow-text">
+                    RAPPER'IN ADI
+                </a>
+                <!-- Navigasyon Bağlantıları (Büyük Ekran) -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#music" class="text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium wave-underline">Müzik</a>
+                    <a href="#bio" class="text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium wave-underline">Hakkında</a>
+                    <a href="#videos" class="text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium wave-underline">Videolar</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white px-3 py-2 rounded-md font-medium wave-underline">İletişim</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- 1. Hero Bölümü - Başlık ve Tanıtım -->
+        <section id="hero" class="relative overflow-hidden min-h-screen flex items-center justify-center p-4" style="background-image: url('https://placehold.co/1920x1080/000000/E30066?text=SAHNE+FOTOSU'); background-size: cover; background-position: center; background-attachment: fixed;">
+            <div class="absolute inset-0 bg-dark-bg/60 backdrop-blur-sm"></div>
+            <div class="relative z-10 text-center max-w-4xl">
+                <p class="text-secondary text-xl font-mono mb-4 animate-pulse">SON ÇIKAN PROJELERIMIZE ULASMAK ICIN</p>
+                <h2 class="text-7xl sm:text-9xl font-extrabold text-white uppercase tracking-tighter mb-6 glow-text">
+                    Atlantic Band
+                </h2>
+                <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                    İstanbul'un yeni nesil sanatçılarından, ortaokulun başlarından kendilerini bu işe vermiş olan Flowend ve asybox'ın kurmuş olduğu "Atlantic Band" isimli müzik grubunun resmi websitesidir. Son Spotify parçamıza ulaşmak için aşağıdaki bağlantıya tıklayınız.
+                </p>
+                <a href="#music" class="inline-block px-10 py-4 text-lg font-bold text-dark-bg bg-primary rounded-full shadow-lg shadow-primary/50 hover:bg-white hover:text-dark-bg transform hover:scale-105 transition duration-300 ease-in-out uppercase tracking-wider">
+                    Müziği Keşfet
+                </a>
+            </div>
+        </section>
+
+        <!-- 2. Müzik Bölümü - Öne Çıkan Şarkılar -->
+        <section id="music" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 border-t border-b border-primary/50">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-4xl sm:text-5xl font-bold text-center mb-12 text-white glow-text">
+                    ÖNE ÇIKAN PARÇALAR
+                </h3>
+                
+                <!-- Örnek Parça Kartları -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                    <!-- Parça 1: En Yeni Tekli -->
+                    <div class="bg-dark-bg rounded-xl p-6 shadow-2xl border-2 border-secondary/50 transform hover:scale-[1.02] transition duration-300">
+                        <img src="https://placehold.co/400x400/121212/00F0FF?text=ALBÜM+KAPAĞI+1" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/121212/00F0FF?text=ALBÜM+KAPAĞI+1';"
+                             alt="Yeni Tekli Kapak Resmi" class="rounded-lg mb-4 w-full aspect-square object-cover">
+                        <h4 class="text-2xl font-bold text-primary mb-2">SAKURA GRAFFITI</h4>
+                        <p class="text-gray-400 mb-4 text-sm font-mono">Yayınlanma Tarihi: 01.10.2025</p>
+                        
+                        <!-- Spotify Gömme Kodu Placeholder (Gerçekte iframe kullanılmalı) -->
+                        <div class="bg-gray-800 p-3 rounded-lg text-center text-secondary text-sm italic">
+                            [Buraya Spotify / YouTube Music iframe kodu gelecek]
+                        </div>
+                        
+                        <a href="#" class="mt-4 block text-center w-full bg-secondary text-dark-bg font-bold py-2 rounded-full hover:bg-white transition duration-300">
+                            Tüm Platformlarda Dinle
+                        </a>
+                    </div>
+
+                    <!-- Parça 2: Popüler Şarkı -->
+                    <div class="bg-dark-bg rounded-xl p-6 shadow-2xl border-2 border-primary/50 transform hover:scale-[1.02] transition duration-300">
+                        <img src="https://placehold.co/400x400/121212/E30066?text=ALBÜM+KAPAĞI+2" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/121212/E30066?text=ALBÜM+KAPAĞI+2';"
+                             alt="Popüler Şarkı Kapak Resmi" class="rounded-lg mb-4 w-full aspect-square object-cover">
+                        <h4 class="text-2xl font-bold text-primary mb-2">KARANLIK COKUNCE</h4>
+                        <p class="text-gray-400 mb-4 text-sm font-mono">Yayınlanma Tarihi: 15.06.2024</p>
+                        
+                        <!-- YouTube Gömme Kodu Placeholder -->
+                        <div class="bg-gray-800 p-3 rounded-lg text-center text-secondary text-sm italic">
+                            [Buraya YouTube iframe kodu gelecek]
+                        </div>
+                        
+                        <a href="#" class="mt-4 block text-center w-full bg-secondary text-dark-bg font-bold py-2 rounded-full hover:bg-white transition duration-300">
+                            Tüm Platformlarda Dinle
+                        </a>
+                    </div>
+
+                    <!-- Parça 3: Albümden Favori -->
+                    <div class="bg-dark-bg rounded-xl p-6 shadow-2xl border-2 border-secondary/50 transform hover:scale-[1.02] transition duration-300">
+                        <img src="https://placehold.co/400x400/121212/E30066?text=ALBÜM+KAPAĞI+3" 
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/121212/E30066?text=ALBÜM+KAPAĞI+3';"
+                             alt="Albümden Favori Kapak Resmi" class="rounded-lg mb-4 w-full aspect-square object-cover">
+                        <h4 class="text-2xl font-bold text-primary mb-2">MASK OFF</h4>
+                        <p class="text-gray-400 mb-4 text-sm font-mono">Yayınlanma Tarihi: 05.02.2024</p>
+                        
+                        <!-- Apple Music Gömme Kodu Placeholder -->
+                        <div class="bg-gray-800 p-3 rounded-lg text-center text-secondary text-sm italic">
+                            [Buraya Apple Music iframe kodu gelecek]
+                        </div>
+                        
+                        <a href="#" class="mt-4 block text-center w-full bg-secondary text-dark-bg font-bold py-2 rounded-full hover:bg-white transition duration-300">
+                            Tüm Platformlarda Dinle
+                        </a>
+                    </div>
+                </div>
+                <!-- Tüm Müziklere Yönlendirme Butonu -->
+                <div class="text-center mt-16">
+                    <a href="#" class="inline-block border-2 border-secondary text-secondary font-bold px-8 py-3 rounded-full hover:bg-secondary hover:text-dark-bg transition duration-300 uppercase tracking-widest">
+                        Tüm Diskografiyi Gör
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Hakkında Bölümü - Biyografi -->
+        <section id="bio" class="py-20 px-4 sm:px-6 lg:px-8 bg-dark-bg">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Biyografi Metni -->
+                <div class="md:order-2">
+                    <h3 class="text-4xl sm:text-5xl font-bold mb-6 text-primary glow-text">
+                        KİMİM?
+                    </h3>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        [RAPPER'IN ADI], [Şehir]'de doğdu ve müziğe olan tutkusu erken yaşlarda başladı. Mahalle kültüründen ve kişisel mücadelelerinden ilham alan sözleri, dinleyicileri derinden etkiliyor. 2022'de çıkardığı ilk EP'si "[EP ADI]" ile yer altı sahnesinde adını duyurdu ve kısa sürede kendine özgü bir hayran kitlesi edindi.
+                    </p>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        Müziğinde klasik Boom Bap ritimlerini modern Trap sound'larıyla harmanlayarak dinamik bir tarz yaratıyor. Sahnede enerjisi ve dinleyiciyle kurduğu bağ ile tanınan [RAPPER'IN ADI], her yeni parçasıyla sınırları zorlamaya devam ediyor.
+                    </p>
+                    <a href="#" class="inline-block mt-4 text-secondary font-bold border-b-2 border-secondary hover:border-primary transition duration-300">
+                        Basın Kitini İndir (PDF)
+                    </a>
+                </div>
+                
+                <!-- Biyografi Görseli -->
+                <div class="md:order-1 relative rounded-xl overflow-hidden shadow-2xl border-4 border-secondary/50">
+                    <img src="https://placehold.co/800x600/121212/E30066?text=BİYOGRAFİ+FOTOSU" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/800x600/121212/E30066?text=BİYOGRAFİ+FOTOSU';"
+                         alt="Rapper'ın sahne fotoğrafı" class="w-full h-auto object-cover transform hover:scale-105 transition duration-500 ease-in-out">
+                    <div class="absolute inset-0 bg-primary/20 mix-blend-multiply"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 4. Videolar Bölümü -->
+        <section id="videos" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 border-t border-b border-secondary/50">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-4xl sm:text-5xl font-bold text-center mb-12 text-white glow-text">
+                    RESMİ MÜZİK VİDEOLARI
+                </h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Video 1 -->
+                    <div class="bg-dark-bg rounded-xl shadow-2xl p-4 border-2 border-primary/30">
+                        <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4">
+                            <!-- YouTube Gömme Kodu Placeholder (Gerçekte iframe kullanılmalı) -->
+                            <div class="w-full h-full bg-gray-800 flex items-center justify-center text-2xl text-secondary">
+                                YouTube Video Placeholder 1
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-secondary mb-1">KLİP ADI 1: "Sokak Lambası"</h4>
+                        <p class="text-gray-400 text-sm">Yönetmen: [Yönetmen Adı]</p>
+                    </div>
+
+                    <!-- Video 2 -->
+                    <div class="bg-dark-bg rounded-xl shadow-2xl p-4 border-2 border-primary/30">
+                        <div class="relative w-full aspect-video rounded-lg overflow-hidden mb-4">
+                            <!-- YouTube Gömme Kodu Placeholder (Gerçekte iframe kullanılmalı) -->
+                            <div class="w-full h-full bg-gray-800 flex items-center justify-center text-2xl text-secondary">
+                                YouTube Video Placeholder 2
+                            </div>
+                        </div>
+                        <h4 class="text-xl font-bold text-secondary mb-1">KLİP ADI 2: "Şehrin Ritmi"</h4>
+                        <p class="text-gray-400 text-sm">Yönetmen: [Yönetmen Adı]</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="#" target="_blank" class="inline-block border-2 border-primary text-primary font-bold px-8 py-3 rounded-full hover:bg-primary hover:text-dark-bg transition duration-300 uppercase tracking-widest">
+                        Tüm Videolar YouTube'da
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. İletişim / Sosyal Medya Bölümü -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-dark-bg border-t border-secondary/50">
+            <div class="max-w-7xl mx-auto text-center">
+                <h3 class="text-4xl sm:text-5xl font-bold mb-4 text-primary glow-text">
+                    İLETİŞİM & SOSYAL MEDYA
+                </h3>
+                <p class="text-gray-300 mb-12 max-w-2xl mx-auto">
+                    İş birlikleri, röportajlar ve tüm diğer sorularınız için aşağıdaki iletişim kanallarını kullanabilirsiniz.
+                </p>
+
+                <!-- Sosyal Medya Simgeleri -->
+                <div class="flex justify-center space-x-6 mb-12">
+                    <!-- YouTube -->
+                    <a href="#" target="_blank" aria-label="YouTube Kanalı" class="p-4 bg-gray-800 rounded-full hover:bg-primary transition duration-300 shadow-lg hover:shadow-primary/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 15.2 0 2 2 0 0 1 1.4 1.4 24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.56 49.56 0 0 1-15.2 0 2 2 0 0 1-1.4-1.4z"></path><path d="m10 15 5-3-5-3v6z"></path></svg>
+                    </a>
+                    <!-- Spotify -->
+                    <a href="#" target="_blank" aria-label="Spotify Profil" class="p-4 bg-gray-800 rounded-full hover:bg-secondary transition duration-300 shadow-lg hover:shadow-secondary/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><circle cx="12" cy="12" r="10"></circle><path d="M8 11.5a2.5 2.5 0 0 1 4.98-1.5c.6.94.98 2.05.98 3 0 1.2-.47 2.37-1.37 3.3l-1.6 1.6a1 1 0 0 1-1.41-1.42l1.6-1.6c.72-.72 1.14-1.68 1.14-2.68 0-.8-.24-1.56-.67-2.22-.38-.6-.94-1.07-1.63-1.38-1.3-.57-2.63-.35-3.66.52A2.5 2.5 0 0 1 8 11.5z"></path><path d="M16 11.5a2.5 2.5 0 0 1 4.98-1.5c.6.94.98 2.05.98 3 0 1.2-.47 2.37-1.37 3.3l-1.6 1.6a1 1 0 0 1-1.41-1.42l1.6-1.6c.72-.72 1.14-1.68 1.14-2.68 0-.8-.24-1.56-.67-2.22-.38-.6-.94-1.07-1.63-1.38-1.3-.57-2.63-.35-3.66.52A2.5 2.5 0 0 1 16 11.5z"></path></svg>
+                    </a>
+                    <!-- Instagram -->
+                    <a href="#" target="_blank" aria-label="Instagram Profil" class="p-4 bg-gray-800 rounded-full hover:bg-primary transition duration-300 shadow-lg hover:shadow-primary/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+                    </a>
+                    <!-- Twitter / X -->
+                    <a href="#" target="_blank" aria-label="X (Twitter) Profil" class="p-4 bg-gray-800 rounded-full hover:bg-secondary transition duration-300 shadow-lg hover:shadow-secondary/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2 1.2-.8 1.5-2.2.8-3.4-.8-1.4-2.1-2.2-3.7-2.2v-.2c2.8.2 5.4-1.2 7.6-3.4L22 4z"></path></svg>
+                    </a>
+                </div>
+
+                <!-- E-posta İletişim Formu -->
+                <div class="max-w-xl mx-auto bg-gray-900 p-8 rounded-xl shadow-inner border border-primary/50">
+                    <p class="text-white text-lg font-semibold mb-4">Doğrudan Mesaj Gönderin</p>
+                    <form onsubmit="handleContact(event)" class="space-y-4">
+                        <input type="text" placeholder="Adınız Soyadınız" required 
+                               class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-secondary focus:border-secondary transition">
+                        <input type="email" placeholder="E-posta Adresiniz" required 
+                               class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-secondary focus:border-secondary transition">
+                        <textarea placeholder="Mesajınız" rows="4" required 
+                                  class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-secondary focus:border-secondary transition"></textarea>
+                        <button type="submit" 
+                                class="w-full bg-primary text-dark-bg font-bold py-3 rounded-lg hover:bg-secondary hover:text-dark-bg transform hover:scale-[1.01] transition duration-300 uppercase tracking-wider">
+                            Gönder
+                        </button>
+                    </form>
+                    <div id="contact-message" class="mt-4 text-sm font-mono text-center text-secondary opacity-0 transition-opacity duration-300"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-secondary/50 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
+            <p>&copy; 2025 RAPPER'IN ADI. Tüm Hakları Saklıdır. | Web Tasarım: Gemini</p>
+        </div>
+    </footer>
+
+    <script>
+        // Kontakt Formu Yönetimi (Gerçek form gönderme yerine simülasyon)
+        function handleContact(event) {
+            event.preventDefault(); // Formun normal submit işlemini durdur
+            
+            const messageBox = document.getElementById('contact-message');
+            
+            // Mesajı göster
+            messageBox.textContent = "Mesajınız başarılı bir şekilde iletildi! En kısa sürede size geri döneceğiz.";
+            messageBox.classList.remove('opacity-0');
+            messageBox.classList.add('opacity-100');
+
+            // 4 saniye sonra mesajı gizle
+            setTimeout(() => {
+                messageBox.classList.remove('opacity-100');
+                messageBox.classList.add('opacity-0');
+                // Formu sıfırla
+                event.target.reset();
+            }, 4000);
+        }
+
+        // Navigasyon için aktif bağlantı takibi (Opsiyonel: Hangi bölümdeysek onu vurgular)
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('main section');
+            const navLinks = document.querySelectorAll('nav a');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 80; // Nav yükseklik ayarı
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
