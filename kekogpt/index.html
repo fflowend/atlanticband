@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f1f1f" />
+  <title>KekoGPT</title>
+  <script src="https://js.puter.com/v2/"></script>
+  <style>
+    :root{
+      --bg:#202123;
+      --panel:#171717;
+      --panel-2:#242424;
+      --panel-3:#2f2f2f;
+      --hover:#303030;
+      --border:#3b3b3b;
+      --text:#f4f4f4;
+      --muted:#a9a9a9;
+      --accent:#ffffff;
+      --danger:#ff6464;
+      --sidebar:272px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    button,input,textarea,select{font:inherit}
+    button{color:inherit}
+    .app{height:100%;display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);overflow:hidden}
+    .sidebar{background:var(--panel);border-right:1px solid #252525;padding:12px;display:flex;flex-direction:column;min-width:0}
+    .brand{height:48px;display:flex;align-items:center;gap:10px;padding:0 8px;font-weight:750;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:#f4f4f4;color:#141414;font-size:14px;font-weight:900}
+    .new-chat{width:100%;border:1px solid var(--border);background:transparent;border-radius:12px;padding:11px 12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin:7px 0 14px}
+    .new-chat:hover,.chat-item:hover,.icon-btn:hover,.menu-btn:hover{background:var(--hover)}
+    .section-label{font-size:12px;color:#777;padding:8px 9px}
+    .history{overflow:auto;min-height:0;display:flex;flex-direction:column;gap:3px;padding-right:2px}
+    .chat-item{border:0;background:transparent;text-align:left;border-radius:10px;padding:10px 11px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d7d7d7;font-size:14px}
+    .chat-item.active{background:#2a2a2a;color:white}
+    .sidebar-footer{margin-top:auto;border-top:1px solid #292929;padding-top:10px}
+    .footer-line{display:flex;align-items:center;gap:10px;padding:10px 9px;color:#b8b8b8;font-size:13px}
+    .dot{width:8px;height:8px;border-radius:50%;background:#51d88a;box-shadow:0 0 0 3px rgba(81,216,138,.08)}
+    .main{min-width:0;display:flex;flex-direction:column;background:#212121;position:relative}
+    .topbar{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid rgba(255,255,255,.04);background:rgba(33,33,33,.88);backdrop-filter:blur(12px);z-index:4}
+    .top-left{display:flex;align-items:center;gap:10px;min-width:0}
+    .mobile-menu{display:none}
+    .model-title{font-weight:700;letter-spacing:-.01em}
+    .model-sub{color:#8d8d8d;font-size:12px;margin-left:7px;font-weight:500}
+    .menu-btn,.icon-btn{border:0;background:transparent;border-radius:10px;cursor:pointer;display:grid;place-items:center}
+    .menu-btn{width:38px;height:38px;font-size:19px}
+    .icon-btn{width:34px;height:34px;color:#bcbcbc}
+    .content{flex:1;min-height:0;overflow:auto;scroll-behavior:smooth}
+    .welcome{min-height:calc(100vh - 190px);display:grid;place-items:center;padding:28px 20px}
+    .welcome-inner{width:min(760px,100%);text-align:center}
+    .welcome-logo{width:55px;height:55px;margin:0 auto 18px;border-radius:17px;background:#f3f3f3;color:#171717;display:grid;place-items:center;font-weight:950;font-size:20px;transform:rotate(-3deg)}
+    .welcome h1{font-size:30px;letter-spacing:-.04em;margin:0 0 8px}
+    .welcome p{margin:0 auto;color:#9b9b9b;max-width:610px;line-height:1.55;font-size:14px}
+    .suggestions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px;text-align:left}
+    .suggestion{border:1px solid var(--border);background:#242424;color:#eaeaea;border-radius:14px;padding:13px 14px;cursor:pointer;min-height:66px}
+    .suggestion:hover{background:#292929}
+    .suggestion b{font-size:13px;display:block;margin-bottom:4px}
+    .suggestion span{font-size:12px;color:#8f8f8f}
+    .messages{width:min(820px,100%);margin:0 auto;padding:28px 20px 150px}
+    .message{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;margin:0 0 26px}
+    .avatar{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:900}
+    .avatar.user{background:#353535;color:#ddd}
+    .avatar.ai{background:#f1f1f1;color:#171717}
+    .bubble{min-width:0;padding-top:3px;line-height:1.62;font-size:15px;overflow-wrap:anywhere}
+    .bubble.user-text{white-space:pre-wrap}
+    .bubble p{margin:.1em 0 .8em}
+    .bubble p:last-child{margin-bottom:0}
+    .bubble code{background:#111;padding:2px 5px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+    .bubble pre{background:#111;border:1px solid #343434;border-radius:12px;padding:14px;overflow:auto;white-space:pre;margin:12px 0}
+    .bubble pre code{background:transparent;padding:0}
+    .actions{display:flex;gap:3px;margin-top:6px;opacity:.7}
+    .composer-wrap{position:absolute;left:0;right:0;bottom:0;padding:18px 20px max(14px,env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(33,33,33,0),#212121 28%,#212121)}
+    .composer{width:min(820px,100%);margin:0 auto;background:#2f2f2f;border:1px solid #444;border-radius:24px;padding:9px 10px 9px 17px;display:flex;align-items:flex-end;gap:10px;box-shadow:0 10px 30px rgba(0,0,0,.16)}
+    textarea{flex:1;resize:none;max-height:170px;min-height:34px;border:0;outline:0;background:transparent;color:white;padding:7px 0;line-height:1.45}
+    textarea::placeholder{color:#8f8f8f}
+    .send{width:38px;height:38px;border-radius:50%;border:0;background:#f2f2f2;color:#111;display:grid;place-items:center;cursor:pointer;flex:0 0 auto;font-weight:900}
+    .send:disabled{background:#545454;color:#888;cursor:not-allowed}
+    .hint{width:min(820px,100%);margin:6px auto 0;text-align:center;color:#717171;font-size:10px}
+    .typing{display:inline-flex;gap:4px;align-items:center;height:20px}
+    .typing i{width:5px;height:5px;border-radius:50%;background:#aaa;animation:b 1.2s infinite ease-in-out}
+    .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+    @keyframes b{0%,60%,100%{transform:translateY(0);opacity:.35}30%{transform:translateY(-4px);opacity:1}}
+    .drawer-backdrop{display:none}
+    .toast{position:fixed;left:50%;bottom:108px;transform:translateX(-50%) translateY(14px);background:#101010;border:1px solid #333;border-radius:10px;padding:9px 12px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:20}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+    @media(max-width:760px){
+      .app{grid-template-columns:1fr}
+      .sidebar{position:fixed;inset:0 auto 0 0;width:min(86vw,320px);z-index:30;transform:translateX(-102%);transition:.22s ease;box-shadow:20px 0 45px rgba(0,0,0,.35)}
+      .sidebar.open{transform:translateX(0)}
+      .drawer-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:29;opacity:0;pointer-events:none;transition:.22s}
+      .drawer-backdrop.open{opacity:1;pointer-events:auto}
+      .mobile-menu{display:grid}
+      .topbar{padding:0 10px}
+      .suggestions{grid-template-columns:1fr}
+      .welcome{min-height:calc(100vh - 180px);align-items:center}
+      .welcome h1{font-size:27px}
+      .messages{padding:22px 14px 145px}
+      .composer-wrap{padding-left:10px;padding-right:10px}
+      .message{grid-template-columns:30px minmax(0,1fr);gap:9px}
+      .bubble{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">KG</div><span>KekoGPT</span></div>
+    <button class="new-chat" id="newChat"><span>＋ Yeni sohbet</span><span style="color:#777">⌘K</span></button>
+    <div class="section-label">Sohbetler</div>
+    <div class="history" id="history"></div>
+    <div class="sidebar-footer">
+      <div class="footer-line"><span class="dot"></span><span>AI bağlantısı hazır</span></div>
+      <div class="footer-line" style="color:#777">KekoGPT • Puter AI</div>
+    </div>
+  </aside>
+  <div class="drawer-backdrop" id="backdrop"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left">
+        <button class="menu-btn mobile-menu" id="mobileMenu" aria-label="Menü">☰</button>
+        <div class="model-title">KekoGPT <span class="model-sub">Auto</span></div>
+      </div>
+      <button class="menu-btn" id="clearBtn" title="Bu sohbeti temizle">⌫</button>
+    </header>
+
+    <section class="content" id="content">
+      <div class="welcome" id="welcome">
+        <div class="welcome-inner">
+          <div class="welcome-logo">KG</div>
+          <h1>N'aber? Ne konuşuyoruz?</h1>
+          <p>KekoGPT lafı dolandırmayan, samimi ve gerektiğinde argo konuşan bir AI asistanıdır. Yine de kullandığı modelin güvenlik kuralları geçerlidir.</p>
+          <div class="suggestions">
+            <button class="suggestion" data-prompt="Bana bugün için sağlam bir plan çıkar, kısa ve net konuş."><b>Bugünü toparla</b><span>Kısa, net bir plan çıkar</span></button>
+            <button class="suggestion" data-prompt="Bir rap şarkısı için sert ve akılda kalıcı 10 konsept öner."><b>Rap fikri üret</b><span>10 sağlam konsept</span></button>
+            <button class="suggestion" data-prompt="Bu gece arkadaş grubuyla konuşmalık absürt 15 konu ver."><b>Muhabbet aç</b><span>Absürt konu başlıkları</span></button>
+            <button class="suggestion" data-prompt="Bana bir konuda karşı çık ve nedenlerini dobra dobra anlat."><b>Ters köşe yap</b><span>Direkt ve filtresiz üslup</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="messages" id="messages" hidden></div>
+    </section>
+
+    <div class="composer-wrap">
+      <form class="composer" id="composer">
+        <textarea id="input" rows="1" placeholder="KekoGPT'ye bir şey sor..."></textarea>
+        <button class="send" id="send" type="submit" aria-label="Gönder">↑</button>
+      </form>
+      <div class="hint">AI hata yapabilir. Kritik bilgileri ayrıca doğrula.</div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(() => {
+  const SYSTEM = `Sen KekoGPT'sin. Türkçe konuş. Üslubun samimi, dobra, mahalle ağzına yakın ve gerektiğinde argo/küfürlü olabilir; yapmacık derecede nazik olma. Kullanıcı argo konuşursa tonunu doğal biçimde eşleştirebilirsin. Gereksiz uzun nasihat verme, lafı dolandırma. Yaratıcı konularda cesur ol; yetişkin, hassas veya tartışmalı konuları yargılamadan konuşabilirsin. Buna rağmen kullandığın AI modelinin güvenlik kurallarını ve yürürlükteki kısıtlarını ihlal etmeye çalışma; tehlikeli veya yasa dışı zarar verici talimatlar gerektiğinde güvenli alternatif ver. Kendi adını sorarlarsa KekoGPT de.`;
+
+  const $ = s => document.querySelector(s);
+  const historyEl = $('#history'), messagesEl = $('#messages'), welcomeEl = $('#welcome');
+  const input = $('#input'), composer = $('#composer'), send = $('#send'), content = $('#content');
+  const sidebar = $('#sidebar'), backdrop = $('#backdrop'), toast = $('#toast');
+
+  let chats = load();
+  let activeId = localStorage.getItem('kekogpt-active') || null;
+  let generating = false;
+
+  if (!chats.length) activeId = null;
+  if (activeId && !chats.find(c => c.id === activeId)) activeId = chats[0]?.id || null;
+
+  function load(){
+    try { return JSON.parse(localStorage.getItem('kekogpt-chats') || '[]'); }
+    catch { return []; }
+  }
+  function save(){
+    localStorage.setItem('kekogpt-chats', JSON.stringify(chats));
+    if (activeId) localStorage.setItem('kekogpt-active', activeId);
+    else localStorage.removeItem('kekogpt-active');
+  }
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+  function current(){ return chats.find(c => c.id === activeId); }
+  function createChat(){
+    const c = {id:uid(), title:'Yeni sohbet', created:Date.now(), messages:[]};
+    chats.unshift(c); activeId = c.id; save(); render(); closeSidebar(); input.focus();
+    return c;
+  }
+  function titleFrom(text){
+    const t = text.replace(/\s+/g,' ').trim();
+    return t.length > 34 ? t.slice(0,34) + '…' : (t || 'Yeni sohbet');
+  }
+  function escapeHtml(s=''){
+    return String(s).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+  }
+  function formatAI(text=''){
+    let safe = escapeHtml(text);
+    const blocks = [];
+    safe = safe.replace(/```([\w-]*)\n?([\s\S]*?)```/g, (_,lang,code) => {
+      const token = `@@CODE${blocks.length}@@`;
+      blocks.push(`<pre><code>${code.trim()}</code></pre>`);
+      return token;
+    });
+    safe = safe.replace(/`([^`]+)`/g,'<code>$1</code>');
+    safe = safe.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    safe = safe.split(/\n{2,}/).map(p => `<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+    blocks.forEach((b,i) => safe = safe.replace(`<p>@@CODE${i}@@</p>`, b).replace(`@@CODE${i}@@`, b));
+    return safe;
+  }
+  function renderHistory(){
+    historyEl.innerHTML = '';
+    chats.forEach(c => {
+      const b = document.createElement('button');
+      b.className = 'chat-item' + (c.id === activeId ? ' active' : '');
+      b.textContent = c.title;
+      b.onclick = () => { activeId = c.id; save(); render(); closeSidebar(); };
+      historyEl.appendChild(b);
+    });
+  }
+  function renderMessages(){
+    const c = current();
+    const has = !!(c && c.messages.length);
+    welcomeEl.hidden = has;
+    messagesEl.hidden = !has;
+    if (!has){ messagesEl.innerHTML=''; return; }
+    messagesEl.innerHTML = '';
+    c.messages.forEach((m,idx) => messagesEl.appendChild(messageNode(m, idx)));
+    requestAnimationFrame(() => content.scrollTop = content.scrollHeight);
+  }
+  function messageNode(m, idx){
+    const wrap = document.createElement('div');
+    wrap.className='message';
+    const av = document.createElement('div');
+    av.className='avatar ' + (m.role === 'user' ? 'user' : 'ai');
+    av.textContent = m.role === 'user' ? 'SEN' : 'KG';
+    const body = document.createElement('div');
+    const bubble = document.createElement('div');
+    bubble.className='bubble' + (m.role === 'user' ? ' user-text' : '');
+    if (m.pending) bubble.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+    else if (m.role === 'assistant') bubble.innerHTML = formatAI(m.content);
+    else bubble.textContent = m.content;
+    body.appendChild(bubble);
+    if (m.role === 'assistant' && !m.pending && m.content){
+      const actions = document.createElement('div'); actions.className='actions';
+      const cp = document.createElement('button'); cp.className='icon-btn'; cp.title='Kopyala'; cp.textContent='⧉';
+      cp.onclick = async () => { await navigator.clipboard.writeText(m.content); showToast('Kopyalandı'); };
+      actions.appendChild(cp); body.appendChild(actions);
+    }
+    wrap.append(av,body); return wrap;
+  }
+  function render(){ renderHistory(); renderMessages(); }
+  function resize(){ input.style.height='auto'; input.style.height=Math.min(input.scrollHeight,170)+'px'; }
+  function showToast(t){ toast.textContent=t; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'),1600); }
+  function openSidebar(){ sidebar.classList.add('open'); backdrop.classList.add('open'); }
+  function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('open'); }
+
+  async function ask(text){
+    text = text.trim(); if (!text || generating) return;
+    let c = current() || createChat();
+    if (!c.messages.length) c.title = titleFrom(text);
+    c.messages.push({role:'user', content:text});
+    const ai = {role:'assistant', content:'', pending:true};
+    c.messages.push(ai); save(); render();
+    input.value=''; resize(); generating=true; send.disabled=true;
+
+    const context = [{role:'system', content:SYSTEM}, ...c.messages.filter(m => !m.pending).slice(-24).map(m => ({role:m.role, content:m.content}))];
+
+    try{
+      const response = await puter.ai.chat(context, {stream:true});
+      ai.pending = false;
+      renderMessages();
+      for await (const part of response){
+        const t = part?.text || part?.message?.content || '';
+        if (t){
+          ai.content += t;
+          const bubbles = messagesEl.querySelectorAll('.bubble');
+          const last = bubbles[bubbles.length-1];
+          if (last) last.innerHTML = formatAI(ai.content);
+          content.scrollTop = content.scrollHeight;
+        }
+      }
+      if (!ai.content) ai.content = 'Şu an cevap boş döndü. Bir daha dene.';
+    }catch(err){
+      ai.pending=false;
+      ai.content='AI bağlantısında bir sorun çıktı. İlk kullanımda Puter giriş ekranı açılabilir; giriş yaptıktan sonra tekrar dene.\n\nHata: ' + (err?.message || err || 'Bilinmeyen hata');
+    }finally{
+      generating=false; send.disabled=false; save(); render(); input.focus();
+    }
+  }
+
+  composer.addEventListener('submit', e => { e.preventDefault(); ask(input.value); });
+  input.addEventListener('input', resize);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing){ e.preventDefault(); composer.requestSubmit(); }
+  });
+  $('#newChat').onclick=createChat;
+  $('#mobileMenu').onclick=openSidebar;
+  backdrop.onclick=closeSidebar;
+  $('#clearBtn').onclick=()=>{
+    const c=current();
+    if (!c) return;
+    chats = chats.filter(x=>x.id!==c.id);
+    activeId = chats[0]?.id || null;
+    save(); render();
+    showToast('Sohbet silindi');
+  };
+  document.querySelectorAll('.suggestion').forEach(b => b.onclick=()=>ask(b.dataset.prompt));
+  window.addEventListener('keydown', e=>{
+    if ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); createChat(); }
+  });
+  render(); resize();
+})();
+</script>
+</body>
+</html>
